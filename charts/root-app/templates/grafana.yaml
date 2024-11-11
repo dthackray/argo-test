@@ -1,0 +1,48 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: grafana
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    chart: grafana
+    targetRevision: 6.51.4
+    helm:
+      values: |
+        # Grafana configuration
+        grafana:
+          adminPassword: password
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: false
+          service:
+            type: ClusterIP
+            ports:
+              - name: grafana
+                containerPort: 3000
+                protocol: TCP
+        # Prometheus configuration
+        prometheus:
+          enabled: true
+          serviceAccount:
+            create: true
+            name: prometheus
+          serviceMonitor:
+            selfMonitor: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  # Port forwarding
+  info:
+    - name: Grafana
+      value: >
+        kubectl port-forward svc/grafana 3000:3000
