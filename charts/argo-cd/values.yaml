@@ -1,27 +1,10 @@
 argo-cd:
+  dex:
+    enabled: false
   notifications:
     enabled: false
-
+  applicationSet:
+    enabled: false
   server:
     extraArgs:
       - --insecure
-
-  redis-ha:
-    enabled: true
-
-  controller:
-    replicas: 1
-
-  server:
-    autoscaling:
-      enabled: true
-      minReplicas: 2
-
-  repoServer:
-    autoscaling:
-      enabled: true
-      minReplicas: 2
-
-  applicationSet:
-    replicas: 2
-
