@@ -39,15 +39,12 @@ spec:
           enabled: false
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
   # Port forwarding
   info:
     - name: Grafana
       value: >
-        kubectl port-forward svc/grafana 3000:3000 -n monitoring
+        kubectl port-forward svc/grafana 3000:3000
