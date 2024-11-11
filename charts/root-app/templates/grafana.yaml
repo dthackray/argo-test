@@ -14,7 +14,6 @@ spec:
       values: |
         # Grafana configuration
         grafana:
-          adminPassword: password1
           service:
             type: ClusterIP
           ingress:
