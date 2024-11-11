@@ -25,13 +25,18 @@ spec:
                 containerPort: 3000
                 protocol: TCP
         # Prometheus configuration
+        datasources:
+          datasources.yaml:
+            apiVersion: 1
+            datasources:
+            - name: Prometheus
+              type: prometheus
+              url: http://prometheus-server.default.svc.cluster.local
+              access: proxy
+              isDefault: true
+        # Prometheus configuration
         prometheus:
-          enabled: true
-          serviceAccount:
-            create: true
-            name: prometheus
-          serviceMonitor:
-            selfMonitor: true
+          enabled: false
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
@@ -45,4 +50,4 @@ spec:
   info:
     - name: Grafana
       value: >
-        kubectl port-forward svc/grafana 3000:3000
+        kubectl port-forward svc/grafana 3000:3000 -n monitoring
