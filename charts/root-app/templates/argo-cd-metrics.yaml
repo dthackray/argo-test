@@ -10,7 +10,7 @@ spec:
     targetRevision: HEAD
     # Specify the file name containing the ServiceMonitor
     resource:
-      name: argocd-metrics
+      name: argo-cd-metrics
       kind: ServiceMonitor
       group: monitoring.coreos.com
       version: v1
