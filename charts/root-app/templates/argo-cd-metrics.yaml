@@ -9,11 +9,21 @@ spec:
     path: charts/root-app/templates
     targetRevision: HEAD
     # Specify the file name containing the ServiceMonitor
-    resource:
-      name: argo-cd-metrics
-      kind: ServiceMonitor
-      group: monitoring.coreos.com
-      version: v1
+    manifest:
+      - |
+        apiVersion: monitoring.coreos.com/v1
+        kind: ServiceMonitor
+        metadata:
+          name: argo-cd-metrics
+          namespace: argocd
+        spec:
+          endpoints:
+          - path: /metrics
+            port: server
+          jobLabel: argocd
+          selector:
+            matchLabels:
+              app.kubernetes.io/name: argocd-server
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
